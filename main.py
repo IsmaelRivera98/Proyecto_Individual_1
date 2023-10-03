@@ -115,16 +115,17 @@ def sentiment_analysis(año: int):
     return resultado
 
 @app.post("/recomendacion_juego/")
-async def recomendacion_juego(product_input: ProductInput):
-    product_id = product_input.product_id
+def recomendacion_juego(product_id: int):
+    try:
+        # Encuentra el índice del juego con el ID proporcionado
+        game_index = game_id.index[game_id['id'] == product_id].tolist()[0]
 
-    # Encuentra el índice del juego con el ID proporcionado
-    game_index = game_id.index[game_id['id'] == product_id].tolist()[0]
+        # Encuentra los juegos más cercanos utilizando KNN
+        _, indices = knn_model.kneighbors(games_features[game_index:game_index+1], n_neighbors=6)
 
-    # Encuentra los juegos más cercanos utilizando KNN
-    _, indices = knn_model.kneighbors(games_features[game_index:game_index+1], n_neighbors=6)
+        # Obtiene los IDs de los juegos recomendados (excluyendo el juego de consulta)
+        recommended_game_ids = [game_id.iloc[i]['id'] for i in indices[0] if i != game_index]
 
-    # Obtiene los IDs de los juegos recomendados (excluyendo el juego de consulta)
-    recommended_game_ids = [game_id.iloc[i]['id'] for i in indices[0] if i != game_index]
-    
-    return {"recommended_game_ids": recommended_game_ids}
+        return {"recommended_game_ids": recommended_game_ids}
+    except Exception as e:
+        return {"error": str(e)}
