@@ -6,5 +6,5 @@ nltk
 textblob
 scikit-learn
 wordcloud
-mathplotlib
+matplotlib
 seaborn
