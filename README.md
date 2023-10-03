@@ -24,4 +24,5 @@ Este archivo contiene la implementación de la API FastAPI y define las rutas y 
 
 ## Uso de la API
 
-Para utilizar la API, asegúrate de tener todas las dependencias instaladas y ejecuta el archivo `main.py` para iniciar el servidor FastAPI. Luego, puedes realizar solicitudes HTTP a las rutas mencionadas anteriormente para obtener información relacionada con los juegos.
+Ingresa al siguiente link: https://proyecto-individual-1-dwfq.onrender.com/docs/
+En el podrás encontrar las aplicaciones para poder consumir la API sin ningún problema.
