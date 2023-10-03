@@ -1,11 +1,9 @@
 from fastapi import FastAPI
 from data_loader import df_merged, game_id, games_features, df_games, knn_model
 
-app = FastAPI(title = "Steam Data Consults", description="API para consultar datos relacionados con Steam.")
+app = FastAPI(title = "Steam Data Consults", description = "API para consultar datos relacionados con Steam.")
 
-@app.get("/", tags=["Funciones"])
-
-@app.get("/PlayTimeGenre", description="Obtiene el año de lanzamiento con más horas jugadas para un género específico.")
+@app.get("/PlayTimeGenre", description="Obtiene el año de lanzamiento con más horas jugadas para un género específico.", tags=["Funciones"])
 def PlayTimeGenre(genero: str):
     # Filtrar el DataFrame por el género especificado
     games_by_genre = df_merged[df_merged['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
@@ -24,7 +22,7 @@ def PlayTimeGenre(genero: str):
 
     return {"Año de lanzamiento con más horas jugadas para el género": year_with_most_playtime}
 
-@app.get("/UserForGenre", description="Encuentra el usuario con más horas jugadas para un género específico y muestra la acumulación de horas jugadas por año.")
+@app.get("/UserForGenre", description="Encuentra el usuario con más horas jugadas para un género específico y muestra la acumulación de horas jugadas por año.", tags=["Funciones"])
 def UserForGenre(genero: str):
     # Filtrar el DataFrame por el género especificado
     games_by_genre = df_merged[df_merge['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
