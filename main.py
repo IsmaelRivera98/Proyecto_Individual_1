@@ -47,7 +47,7 @@ def UserForGenre(genero: str):
 
     return result
 
-@app.get("/UsersRecommend", description="Devuelve los juegos recomendados para un año en específico.")
+@app.get("/UsersRecommend", description="Devuelve los juegos recomendados para un año en específico.", tags=["Funciones"])
 def UsersRecommend(año: int):
     # Filtrar el DataFrame por el año dado y condiciones de recomendación y sentimiento positivo/neutro
     juegos_recomendados = df_merged[(df_merged['release_year'] == año) & (df_merged['recommend'] == True) & (df_merged['sentiment_analysis'] >= 1)]
@@ -69,7 +69,7 @@ def UsersRecommend(año: int):
 
     return resultados
 
-@app.get("/UsersNotRecommend", description="Devuelve los juegos no recomendados para un año específico.")
+@app.get("/UsersNotRecommend", description="Devuelve los juegos no recomendados para un año específico.", tags=["Funciones"])
 def UsersNotRecommend(año: int):
     # Filtrar el DataFrame por el año dado y condiciones de no recomendación y sentimiento negativo
     juegos_no_recomendados = df_merged[(df_merged['release_year'] == año) & (df_merged['recommend'] == False) & (df_merged['sentiment_analysis'] < 1)]
@@ -91,7 +91,7 @@ def UsersNotRecommend(año: int):
 
     return resultados
 
-@app.get("/sentiment_analysis", description="Muestra el análisis de sentimiento de las reseñas de usuarios para un año en específico.")
+@app.get("/sentiment_analysis", description="Muestra el análisis de sentimiento de las reseñas de usuarios para un año en específico.", tags=["Funciones"])
 def sentiment_analysis(año: int):
     # Filtrar el DataFrame por el año dado
     juegos_por_año = df_merged[df_merged['release_year'] == año]
@@ -114,7 +114,7 @@ def sentiment_analysis(año: int):
 
     return resultado
 
-@app.post("/recomendacion_juego/", description="Proporciona recomendaciones de juegos similares para un juego en específico.")
+@app.post("/recomendacion_juego/", description="Proporciona recomendaciones de juegos similares para un juego en específico.", tags=["Funciones"])
 def recomendacion_juego(product_id: int):
     try:
         # Encuentra el índice del juego con el ID proporcionado
