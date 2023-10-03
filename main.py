@@ -124,8 +124,8 @@ def recomendacion_juego(product_id: int):
         _, indices = knn_model.kneighbors(games_features[game_index:game_index+1], n_neighbors=6)
 
         # Obtiene los IDs de los juegos recomendados (excluyendo el juego de consulta)
-        recommended_game_ids = [df_games.iloc[i]['id'] for i in indices[0] if i != game_index]
+        recommended_game_names = [df_games.iloc[i]['title'] for i in indices[0] if i != game_index]
 
-        return {"recommended_game_ids": recommended_game_ids}
+        return {"Juegos Recomendados": recommended_game_names}
     except Exception as e:
         return {"error": str(e)}
