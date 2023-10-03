@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from data_loader import df_merged, game_id, games_features, df_games, knn_model
 
-app = FastAPI(title = "Steam Data Consults")
+app = FastAPI(title = "Steam Data Consults", description="API para consultar datos relacionados con Steam.")
 
 @app.get("/PlayTimeGenre", description="Obtiene el año de lanzamiento con más horas jugadas para un género específico.")
 def PlayTimeGenre(genero: str):
