@@ -3,7 +3,7 @@ from data_loader import df_merged, game_id, games_features, df_games, knn_model
 
 app = FastAPI(title = "Steam Data Consults")
 
-@app.get("/PlayTimeGenre")
+@app.get("/PlayTimeGenre", description="Obtiene el año de lanzamiento con más horas jugadas para un género específico.")
 def PlayTimeGenre(genero: str):
     # Filtrar el DataFrame por el género especificado
     games_by_genre = df_merged[df_merged['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
@@ -22,7 +22,7 @@ def PlayTimeGenre(genero: str):
 
     return {"Año de lanzamiento con más horas jugadas para el género": year_with_most_playtime}
 
-@app.get("/UserForGenre")
+@app.get("/UserForGenre", description="Encuentra el usuario con más horas jugadas para un género específico y muestra la acumulación de horas jugadas por año.")
 def UserForGenre(genero: str):
     # Filtrar el DataFrame por el género especificado
     games_by_genre = df_merged[df_merge['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
@@ -47,7 +47,7 @@ def UserForGenre(genero: str):
 
     return result
 
-@app.get("/UsersRecommend")
+@app.get("/UsersRecommend", description="Devuelve los juegos recomendados para un año en específico.")
 def UsersRecommend(año: int):
     # Filtrar el DataFrame por el año dado y condiciones de recomendación y sentimiento positivo/neutro
     juegos_recomendados = df_merged[(df_merged['release_year'] == año) & (df_merged['recommend'] == True) & (df_merged['sentiment_analysis'] >= 1)]
@@ -69,7 +69,7 @@ def UsersRecommend(año: int):
 
     return resultados
 
-@app.get("/UsersNotRecommend")
+@app.get("/UsersNotRecommend", description="Devuelve los juegos no recomendados para un año específico.")
 def UsersNotRecommend(año: int):
     # Filtrar el DataFrame por el año dado y condiciones de no recomendación y sentimiento negativo
     juegos_no_recomendados = df_merged[(df_merged['release_year'] == año) & (df_merged['recommend'] == False) & (df_merged['sentiment_analysis'] < 1)]
@@ -91,7 +91,7 @@ def UsersNotRecommend(año: int):
 
     return resultados
 
-@app.get("/sentiment_analysis")
+@app.get("/sentiment_analysis", description="Muestra el análisis de sentimiento de las reseñas de usuarios para un año en específico.")
 def sentiment_analysis(año: int):
     # Filtrar el DataFrame por el año dado
     juegos_por_año = df_merged[df_merged['release_year'] == año]
@@ -114,7 +114,7 @@ def sentiment_analysis(año: int):
 
     return resultado
 
-@app.post("/recomendacion_juego/")
+@app.post("/recomendacion_juego/", description="Proporciona recomendaciones de juegos similares para un juego en específico.")
 def recomendacion_juego(product_id: int):
     try:
         # Encuentra el índice del juego con el ID proporcionado
