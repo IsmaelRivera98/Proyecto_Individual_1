@@ -25,7 +25,7 @@ def PlayTimeGenre(genero: str):
 @app.get("/UserForGenre", description="Encuentra el usuario con más horas jugadas para un género específico y muestra la acumulación de horas jugadas por año.", tags=["Funciones"])
 def UserForGenre(genero: str):
     # Filtrar el DataFrame por el género especificado
-    games_by_genre = df_merged[df_merge['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
+    games_by_genre = df_merged[df_merged['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
 
     if games_by_genre.empty:
         return {"mensaje": "No se encontraron juegos para el género especificado"}
