@@ -1,7 +1,7 @@
-from fastapi import FastAPI
-from data_loader import df_merged
+from fastapi import FastAPI()
+from data_loader import df_merged, game_id, games_features, knn_model, ProductInput
 
-app = FastAPI()
+app = FastAPI(title = "Steam Data Consults")
 
 @app.get("/PlayTimeGenre")
 def PlayTimeGenre(genero: str):
@@ -113,3 +113,18 @@ def sentiment_analysis(año: int):
     }
 
     return resultado
+
+@app.post("/recomendacion_juego/")
+async def recomendacion_juego(product_input: ProductInput):
+    product_id = product_input.product_id
+
+    # Encuentra el índice del juego con el ID proporcionado
+    game_index = game_id.index[game_id['id'] == product_id].tolist()[0]
+
+    # Encuentra los juegos más cercanos utilizando KNN
+    _, indices = knn_model.kneighbors(games_features[game_index:game_index+1], n_neighbors=6)
+
+    # Obtiene los IDs de los juegos recomendados (excluyendo el juego de consulta)
+    recommended_game_ids = [game_id.iloc[i]['id'] for i in indices[0] if i != game_index]
+    
+    return {"recommended_game_ids": recommended_game_ids}
