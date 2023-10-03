@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from data_loader import df_merged, game_id, games_features, knn_model, ProductInput
+from data_loader import df_merged, game_id, games_features, df_games, knn_model
 
 app = FastAPI(title = "Steam Data Consults")
 
@@ -124,7 +124,7 @@ def recomendacion_juego(product_id: int):
         _, indices = knn_model.kneighbors(games_features[game_index:game_index+1], n_neighbors=6)
 
         # Obtiene los IDs de los juegos recomendados (excluyendo el juego de consulta)
-        recommended_game_ids = [game_id.iloc[i]['id'] for i in indices[0] if i != game_index]
+        recommended_game_ids = [df_games.iloc[i]['id'] for i in indices[0] if i != game_index]
 
         return {"recommended_game_ids": recommended_game_ids}
     except Exception as e:
