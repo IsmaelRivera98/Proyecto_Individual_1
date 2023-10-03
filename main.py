@@ -1,4 +1,4 @@
-from fastapi import FastAPI()
+from fastapi import FastAPI
 from data_loader import df_merged, game_id, games_features, knn_model, ProductInput
 
 app = FastAPI(title = "Steam Data Consults")
