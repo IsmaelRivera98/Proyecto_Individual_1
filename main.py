@@ -1,13 +1,12 @@
 from fastapi import FastAPI
-import pandas as pd
-from data_loader import df_merge
+from data_loader import df_merged
 
 app = FastAPI()
 
 @app.get("/PlayTimeGenre")
 def PlayTimeGenre(genero: str):
     # Filtrar el DataFrame por el género especificado
-    games_by_genre = df_merge[df_merge['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
+    games_by_genre = df_merged[df_merged['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
 
     if games_by_genre.empty:
         return {"mensaje": "No se encontraron juegos para el género especificado"}
@@ -26,7 +25,7 @@ def PlayTimeGenre(genero: str):
 @app.get("/UserForGenre")
 def UserForGenre(genero: str):
     # Filtrar el DataFrame por el género especificado
-    games_by_genre = df_merge[df_merge['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
+    games_by_genre = df_merged[df_merge['genres'].str.contains(genero, case=False, na=False, regex=r'\b' + genero + r'\b')]
 
     if games_by_genre.empty:
         return {"mensaje": "No se encontraron juegos para el género especificado"}
@@ -51,7 +50,7 @@ def UserForGenre(genero: str):
 @app.get("/UsersRecommend")
 def UsersRecommend(año: int):
     # Filtrar el DataFrame por el año dado y condiciones de recomendación y sentimiento positivo/neutro
-    juegos_recomendados = df_merge[(df_merge['release_year'] == año) & (df_merge['recommend'] == True) & (df_merge['sentiment_analysis'] >= 1)]
+    juegos_recomendados = df_merged[(df_merged['release_year'] == año) & (df_merged['recommend'] == True) & (df_merged['sentiment_analysis'] >= 1)]
 
     if juegos_recomendados.empty:
         return {"mensaje": "No se encontraron juegos recomendados para el año y condiciones especificados"}
@@ -73,7 +72,7 @@ def UsersRecommend(año: int):
 @app.get("/UsersNotRecommend")
 def UsersNotRecommend(año: int):
     # Filtrar el DataFrame por el año dado y condiciones de no recomendación y sentimiento negativo
-    juegos_no_recomendados = df_merge[(df_merge['release_year'] == año) & (df_merge['recommend'] == False) & (df_merge['sentiment_analysis'] < 1)]
+    juegos_no_recomendados = df_merged[(df_merged['release_year'] == año) & (df_merged['recommend'] == False) & (df_merged['sentiment_analysis'] < 1)]
 
     if juegos_no_recomendados.empty:
         return {"mensaje": "No se encontraron juegos no recomendados para el año y condiciones especificados"}
@@ -95,7 +94,7 @@ def UsersNotRecommend(año: int):
 @app.get("/sentiment_analysis")
 def sentiment_analysis(año: int):
     # Filtrar el DataFrame por el año dado
-    juegos_por_año = df_merge[df_merge['release_year'] == año]
+    juegos_por_año = df_merged[df_merged['release_year'] == año]
 
     if juegos_por_año.empty:
         return {"mensaje": "No se encontraron juegos para el año especificado"}
